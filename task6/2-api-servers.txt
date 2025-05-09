@@ -1,0 +1,3 @@
+# filepath: /home/braga/holbertonschool-softy-pinko-docker/task6/2-api-servers.txt
+# Commande pour démarrer les services avec 2 instances du service back-end (équilibrage de charge)
+docker-compose up --scale back-end=2

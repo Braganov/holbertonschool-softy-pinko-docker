@@ -1,0 +1,37 @@
+# filepath: /home/braga/holbertonschool-softy-pinko-docker/task6/docker-compose.yml
+# Spécification de la version de Docker Compose
+version: '3'
+
+services:
+  # Service pour l'API back-end (scalable à plusieurs instances)
+  back-end:
+    build:
+      # Emplacement du contexte de construction
+      context: ./back-end
+      # Fichier Dockerfile à utiliser
+      dockerfile: Dockerfile
+    # Nom de l'image créée
+    image: softy-pinko-back-end:task6
+
+  # Service pour le front-end
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: softy-pinko-front-end:task6
+    depends_on:
+      - back-end
+
+  # Service pour le proxy inverse avec équilibrage de charge
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    image: softy-pinko-proxy:task6
+    # Mappage du port 80 pour accéder à l'application depuis l'extérieur
+    ports:
+      - "80:80"
+    # Le proxy dépend des services front-end et back-end
+    depends_on:
+      - back-end
+      - front-end
