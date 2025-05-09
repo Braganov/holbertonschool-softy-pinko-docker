@@ -1,0 +1,30 @@
+# filepath: /home/braga/holbertonschool-softy-pinko-docker/task4/docker-compose.yml
+# Spécification de la version de Docker Compose
+version: '3'
+
+services:
+  # Service pour l'API back-end
+  back-end:
+    build:
+      # Emplacement du contexte de construction
+      context: ./back-end
+      # Fichier Dockerfile à utiliser
+      dockerfile: Dockerfile
+    # Nom de l'image créée
+    image: softy-pinko-back-end:task4
+    # Mappage de ports: port-hôte:port-conteneur
+    ports:
+      - "5252:5252"
+
+  # Service pour le front-end
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    image: softy-pinko-front-end:task4
+    ports:
+      - "9000:9000"
+    # Spécifie que ce service dépend du service back-end
+    # (le back-end démarre avant le front-end)
+    depends_on:
+      - back-end
